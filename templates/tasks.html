@@ -1,0 +1,463 @@
+{% extends "base_app.html" %}
+{% block title %}
+    Tasks - Smart Workspace
+{% endblock title %}
+{% block content %}
+    <div class="p-6 md:p-8 flex flex-col h-full overflow-hidden">
+        <!-- Header Area -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 flex-shrink-0">
+            <div>
+                <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <span class="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400">
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                    </span>
+                    Tasks & Planner
+                </h1>
+                <p class="text-slate-400 text-sm mt-1 mb-0">Organize your work, set priorities, and get things done.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all focus:outline-none focus:ring-2 focus:ring-slate-400/20">
+                    Filter
+                </button>
+                <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-medium text-sm shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500/50 flex items-center gap-2">
+                    <svg class="w-4 h-4"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    New Task
+                </button>
+            </div>
+        </div>
+        <!-- Kanban Board Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1 min-h-0 overflow-y-auto pb-6 scrollbar-hide">
+            <!-- Column 1: To Do -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-white font-semibold text-sm flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+                        To Do
+                        <span class="ml-1 px-2 py-0.5 rounded-full bg-white/10 text-slate-400 text-[10px] font-bold">3</span>
+                    </h2>
+                    <button class="text-slate-500 hover:text-slate-300 transition-colors">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Task Card: High Priority -->
+                <div class="p-4 rounded-xl bg-white/5 border border-rose-500/30 hover:border-rose-500/60 transition-all cursor-pointer group flex flex-col relative overflow-hidden backdrop-blur-sm shadow-sm hover:shadow-lg hover:shadow-rose-500/10">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-rose-500"></div>
+                    <div class="flex justify-between items-start mb-2 pl-2">
+                        <span class="px-2 py-0.5 rounded-md bg-rose-500/10 text-rose-400 text-[10px] font-bold uppercase tracking-wider">High Priority</span>
+                        <button class="text-slate-500 group-hover:text-slate-300 opacity-0 group-hover:opacity-100 transition-all">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="text-slate-200 text-sm font-medium pl-2 mb-1.5 leading-snug">Prepare slides for Q3 Product Review</h3>
+                    <p class="text-slate-500 text-xs pl-2 mb-4 line-clamp-2 leading-relaxed">
+                        Gather metrics from engineering and sales teams to build the deck. Needs to be submitted by EOD.
+                    </p>
+                    <div class="flex items-center justify-between pl-2 mt-auto">
+                        <div class="flex items-center gap-1.5 text-xs text-rose-400 font-medium">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Today, 5:00 PM
+                        </div>
+                    </div>
+                </div>
+                <!-- Task Card: Normal -->
+                <div class="p-4 rounded-xl bg-white/3 border border-white/5 hover:border-white/10 transition-all cursor-pointer group flex flex-col relative overflow-hidden backdrop-blur-sm shadow-sm hover:shadow-md hover:shadow-white/5">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-blue-500 opacity-50"></div>
+                    <div class="flex justify-between items-start mb-2 pl-2">
+                        <span class="px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider">Design</span>
+                    </div>
+                    <h3 class="text-slate-200 text-sm font-medium pl-2 mb-1.5 leading-snug">Review new landing page mockups</h3>
+                    <div class="flex items-center justify-between pl-2 mt-4">
+                        <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Tomorrow
+                        </div>
+                        <div class="flex -space-x-2">
+                            <div class="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 border border-[#0f1117] flex justify-center items-center text-[9px] text-white font-bold">
+                                JD
+                            </div>
+                            <div class="w-6 h-6 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 border border-[#0f1117] flex justify-center items-center text-[9px] text-white font-bold">
+                                AS
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Task Card: Normal -->
+                <div class="p-4 rounded-xl bg-white/3 border border-white/5 hover:border-white/10 transition-all cursor-pointer group flex flex-col relative overflow-hidden backdrop-blur-sm shadow-sm hover:shadow-md hover:shadow-white/5">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-slate-500 opacity-50"></div>
+                    <div class="flex justify-between items-start mb-2 pl-2">
+                        <span class="px-2 py-0.5 rounded-md bg-white/5 text-slate-400 text-[10px] font-bold uppercase tracking-wider">Misc</span>
+                    </div>
+                    <h3 class="text-slate-200 text-sm font-medium pl-2 mb-1.5 leading-snug">Reply to pending emails</h3>
+                    <div class="flex items-center justify-between pl-2 mt-4">
+                        <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            No due date
+                        </div>
+                    </div>
+                </div>
+                <!-- Quick Add Area -->
+                <button class="w-full flex items-center gap-2 py-3 px-4 rounded-xl border border-dashed border-white/10 text-slate-500 hover:text-slate-300 hover:border-white/20 hover:bg-white/5 transition-all text-sm font-medium text-left">
+                    <svg class="w-4 h-4"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add another task...
+                </button>
+            </div>
+            <!-- Column 2: In Progress -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-white font-semibold text-sm flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                        In Progress
+                        <span class="ml-1 px-2 py-0.5 rounded-full bg-white/10 text-slate-400 text-[10px] font-bold">2</span>
+                    </h2>
+                    <button class="text-slate-500 hover:text-slate-300 transition-colors">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Task Card: In Progress -->
+                <div class="p-4 rounded-xl bg-white/5 border border-amber-500/30 hover:border-amber-500/60 transition-all cursor-pointer group flex flex-col relative overflow-hidden backdrop-blur-sm shadow-sm hover:shadow-lg hover:shadow-amber-500/10">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+                    <div class="flex justify-between items-start mb-2 pl-2">
+                        <span class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-400 text-[10px] font-bold uppercase tracking-wider">Engineering</span>
+                        <button class="text-slate-500 group-hover:text-amber-400 opacity-0 group-hover:opacity-100 transition-all">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="text-slate-200 text-sm font-medium pl-2 mb-1.5 leading-snug">
+                        Implement Dark Mode across all UI components
+                    </h3>
+                    <!-- Progress bar -->
+                    <div class="pl-2 mt-3 mb-4">
+                        <div class="flex justify-between text-[10px] font-medium text-slate-400 mb-1">
+                            <span>Progress</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-black/40 rounded-full overflow-hidden">
+                            <div class="h-full bg-amber-500 rounded-full" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pl-2 mt-auto">
+                        <div class="flex items-center gap-1 text-xs text-amber-400/80 font-medium bg-amber-500/10 px-2 py-1 rounded-lg">
+                            <svg class="w-3.5 h-3.5"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            In progress
+                        </div>
+                        <div class="flex -space-x-2">
+                            <div class="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border border-[#0f1117] flex justify-center items-center text-[9px] text-white font-bold">
+                                U
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Task Card: In Progress (AI generated) -->
+                <div class="p-4 rounded-xl bg-white/3 border border-purple-500/20 hover:border-purple-500/40 transition-all cursor-pointer group flex flex-col relative overflow-hidden backdrop-blur-sm shadow-sm hover:shadow-md hover:shadow-purple-500/5">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-purple-500 opacity-60"></div>
+                    <!-- AI spark indicator -->
+                    <div class="absolute top-0 right-0 p-2 opacity-50 text-purple-400 group-hover:opacity-100 transition-opacity">
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <div class="flex justify-between items-start mb-2 pl-2 pr-6">
+                        <span class="px-2 py-0.5 rounded-md bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                            AI Generated
+                        </span>
+                    </div>
+                    <h3 class="text-slate-200 text-sm font-medium pl-2 mb-1.5 leading-snug">
+                        Draft follow-up emails based on Meeting Notes
+                    </h3>
+                    <p class="text-slate-500 text-xs pl-2 mb-4 line-clamp-2 leading-relaxed">
+                        Auto-generated task from "Meeting Summary" chat. Draft prepared, waiting for review.
+                    </p>
+                    <div class="flex items-center justify-between pl-2 mt-auto">
+                        <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Today
+                        </div>
+                    </div>
+                </div>
+                <button class="w-full flex items-center gap-2 py-3 px-4 rounded-xl border border-dashed border-white/10 text-slate-500 hover:text-slate-300 hover:border-white/20 hover:bg-white/5 transition-all text-sm font-medium text-left">
+                    <svg class="w-4 h-4"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Add another task...
+                </button>
+            </div>
+            <!-- Column 3: Done -->
+            <div class="flex flex-col gap-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-white font-semibold text-sm flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        Done
+                        <span class="ml-1 px-2 py-0.5 rounded-full bg-white/10 text-slate-400 text-[10px] font-bold">1</span>
+                    </h2>
+                    <button class="text-slate-500 hover:text-slate-300 transition-colors">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                        </svg>
+                    </button>
+                </div>
+                <!-- Task Card: Done -->
+                <div class="p-4 rounded-xl bg-white/5 border border-emerald-500/20 transition-all cursor-pointer group flex flex-col relative overflow-hidden backdrop-blur-sm shadow-sm hover:shadow-md">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
+                    <div class="flex justify-between items-start mb-2 pl-2">
+                        <span class="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 text-[10px] font-bold uppercase tracking-wider line-through decoration-emerald-500/50">Personal</span>
+                        <button class="text-slate-500 group-hover:text-slate-300 opacity-0 group-hover:opacity-100 transition-all">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <h3 class="text-slate-400 line-through decoration-slate-500 text-sm font-medium pl-2 mb-1.5 leading-snug">
+                        Review candidate resumes from yesterday
+                    </h3>
+                    <div class="flex items-center justify-between pl-2 mt-4">
+                        <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Completed 10:30 AM
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const columns = document.querySelectorAll('.grid > div.flex-col');
+    const newBtn = document.querySelector('button.bg-gradient-to-r');
+    const addAnotherBtns = document.querySelectorAll('button.border-dashed');
+    
+    // Helper to update counts
+    const updateCounts = () => {
+        columns.forEach(col => {
+            const countSpan = col.querySelector('h2 > span:last-child');
+            if(countSpan) {
+                // Count active task cards (not buttons, not the header)
+                // Existing cards have 'div.group.cursor-pointer'
+                const cards = col.querySelectorAll('div.group.cursor-pointer');
+                countSpan.textContent = cards.length;
+            }
+        });
+    };
+
+    // Make existing cards interactive
+    const bindCardEvents = (card) => {
+        card.setAttribute('draggable', 'true');
+        
+        card.addEventListener('dragstart', (e) => {
+            card.classList.add('opacity-50', 'scale-[0.98]');
+            e.dataTransfer.effectAllowed = 'move';
+            // Store reference globally since dataTransfer is restricted during drag
+            window.draggedCard = card;
+        });
+
+        card.addEventListener('dragend', () => {
+            card.classList.remove('opacity-50', 'scale-[0.98]');
+            window.draggedCard = null;
+        });
+
+        // Delete button logic
+        const deleteBtn = card.querySelector('button');
+        if (deleteBtn) {
+            // Update icon to trash can to be clearer
+            deleteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>';
+            // Make hover red
+            deleteBtn.className = deleteBtn.className.replace(/group-hover:text-[^\s]+/, 'group-hover:text-rose-400');
+            
+            deleteBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                card.remove();
+                updateCounts();
+            });
+        }
+
+        // Make title editable
+        const title = card.querySelector('h3');
+        if (title && !title.hasAttribute('contenteditable')) {
+            title.setAttribute('contenteditable', 'true');
+            title.classList.add('focus:outline-none', 'focus:ring-1', 'focus:ring-emerald-500/50', 'rounded', '-ml-1', 'px-1');
+            title.addEventListener('click', e => e.stopPropagation());
+            title.addEventListener('keydown', e => { 
+                if(e.key === 'Enter') { e.preventDefault(); title.blur(); } 
+            });
+        }
+    };
+
+    // Bind all initial cards
+    document.querySelectorAll('div.group.cursor-pointer').forEach(bindCardEvents);
+
+    // Setup columns as drop targets
+    columns.forEach(col => {
+        col.addEventListener('dragover', (e) => {
+            e.preventDefault(); // Necessary to allow dropping
+            e.dataTransfer.dropEffect = 'move';
+            col.classList.add('bg-white/5', 'rounded-2xl', 'ring-1', 'ring-white/10');
+        });
+
+        col.addEventListener('dragleave', () => {
+            col.classList.remove('bg-white/5', 'rounded-2xl', 'ring-1', 'ring-white/10');
+        });
+
+        col.addEventListener('drop', (e) => {
+            e.preventDefault();
+            col.classList.remove('bg-white/5', 'rounded-2xl', 'ring-1', 'ring-white/10');
+            
+            const card = window.draggedCard;
+            if (card) {
+                // Insert before the "Add another task" button
+                const addBtn = col.querySelector('.border-dashed');
+                if (addBtn) {
+                    col.insertBefore(card, addBtn);
+                } else {
+                    col.appendChild(card);
+                }
+                
+                // If dropping into "Done", apply strikethrough logic
+                const colTitle = col.querySelector('h2').textContent;
+                const title = card.querySelector('h3');
+                if (colTitle.includes('Done')) {
+                    title.classList.add('line-through', 'text-slate-400');
+                    title.classList.remove('text-slate-200');
+                } else {
+                    title.classList.remove('line-through', 'text-slate-400');
+                    title.classList.add('text-slate-200');
+                }
+                
+                updateCounts();
+            }
+        });
+    });
+
+    // Create a new task card HTML string
+    const createNewCard = () => {
+        const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        return `
+        <div class="p-4 rounded-xl bg-white/5 border border-white/20 hover:border-white/40 transition-all cursor-pointer group flex flex-col relative overflow-hidden backdrop-blur-sm shadow-sm hover:shadow-md" draggable="true">
+            <div class="absolute top-0 left-0 w-1 h-full bg-slate-400"></div>
+            <div class="flex justify-between items-start mb-2 pl-2">
+                <span class="px-2 py-0.5 rounded-md bg-white/10 text-slate-300 text-[10px] font-bold uppercase tracking-wider">New</span>
+                <button class="text-slate-500 group-hover:text-rose-400 opacity-0 group-hover:opacity-100 transition-all">
+                    <!-- Icon will be replaced by bindCardEvents -->
+                </button>
+            </div>
+            <h3 class="text-slate-200 text-sm font-medium pl-2 mb-1.5 leading-snug">New Task</h3>
+            <div class="flex items-center justify-between pl-2 mt-4">
+                <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Added ${time}
+                </div>
+            </div>
+        </div>`;
+    };
+
+    // Add new task handler
+    const handleNewTask = (column) => {
+        const addBtn = column.querySelector('.border-dashed');
+        const tmp = document.createElement('div');
+        tmp.innerHTML = createNewCard().trim();
+        const newCard = tmp.firstElementChild;
+        
+        if (addBtn) {
+            column.insertBefore(newCard, addBtn);
+        } else {
+            column.appendChild(newCard);
+        }
+        
+        bindCardEvents(newCard);
+        updateCounts();
+
+        // Focus the title for immediate editing
+        const title = newCard.querySelector('h3');
+        title.focus();
+        
+        // Select the text nicely
+        const range = document.createRange();
+        range.selectNodeContents(title);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    };
+
+    // Top "New Task" button adds to "To Do" column
+    if (newBtn && columns.length > 0) {
+        newBtn.addEventListener('click', () => handleNewTask(columns[0]));
+    }
+
+    // Bottom "Add another task..." buttons
+    addAnotherBtns.forEach(btn => {
+        btn.addEventListener('click', () => handleNewTask(btn.parentElement));
+    });
+});
+    </script>
+{% endblock content %}

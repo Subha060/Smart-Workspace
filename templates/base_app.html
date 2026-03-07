@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+          content="{% block meta_description %}Smart Workspace - Your portal for jobs and recruitment.{% endblock meta_description %}" />
+    {% load tailwind_tags %}
+    {% tailwind_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+    <title>
+      {% block title %}
+        Smart Workspace
+      {% endblock title %}
+    </title>
+    <style>
+      /* ── Custom scrollbar ── */
+      .scrollbar-hide::-webkit-scrollbar { display: none; }
+      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+      /* ── Sidebar active link ── */
+      .sidebar-link.active {
+        color: #fff;
+        background-color: rgba(255,255,255,0.06);
+      }
+      .sidebar-link.active .sidebar-icon {
+        background-color: rgba(99,102,241,0.15);
+      }
+
+      /* ── Icon size helper ── */
+      .w-4\.5 { width: 1.125rem; }
+      .h-4\.5 { height: 1.125rem; }
+
+      /* ── Subtle page entrance ── */
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      #page-content { animation: fadeUp 0.35s ease forwards; }
+    </style>
+  </head>
+  <body class="bg-[#0a0c12] text-slate-100 antialiased font-[Inter,sans-serif]">
+    <!-- Sidebar -->
+    {% include "components/sidebar.html" %}
+    <!-- Main content area (offset by sidebar width on large screens) -->
+    <div id="page-content" class="lg:ml-64 min-h-screen flex flex-col">
+      {% block content %}
+      {% endblock content %}
+    </div>
+  </body>
+</html>

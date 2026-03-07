@@ -1,0 +1,441 @@
+{% extends "base_app.html" %}
+{% block title %}
+    Email Assistant - Smart Workspace
+{% endblock title %}
+{% block content %}
+    <div class="p-6 md:p-8 flex flex-col h-full overflow-hidden">
+        <!-- Header Area -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 flex-shrink-0">
+            <div>
+                <h1 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <span class="p-1.5 rounded-lg bg-amber-500/10 text-amber-400">
+                        <svg class="w-6 h-6"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                    </span>
+                    Email Assistant
+                </h1>
+                <p class="text-slate-400 text-sm mt-1 mb-0">AI-powered inbox management and drafting.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <input type="text"
+                           placeholder="Search emails..."
+                           class="w-64 pl-9 pr-4 py-2 bg-[#0a0c12]/80 border border-white/10 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all">
+                    <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2.5"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium text-sm shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-amber-500/50 flex items-center gap-2">
+                    <svg class="w-4 h-4"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                    Compose
+                </button>
+            </div>
+        </div>
+        <!-- Email UI Grid -->
+        <div class="flex-1 min-h-0 bg-white/3 border border-white/5 rounded-2xl overflow-hidden flex flex-col md:flex-row">
+            <!-- Sidebar Folders -->
+            <div class="w-full md:w-56 border-r border-white/5 bg-[#0a0c12]/30 flex-shrink-0 flex flex-col">
+                <div class="p-4 py-3 border-b border-white/5">
+                    <button class="w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-sm text-white font-medium transition-colors border border-white/10 flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4 text-amber-400"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Draft with AI
+                    </button>
+                </div>
+                <div class="flex-1 py-2 px-2 space-y-0.5 overflow-y-auto">
+                    <a href="#"
+                       class="flex items-center justify-between px-3 py-2 rounded-lg bg-amber-500/10 text-amber-300 font-medium text-sm transition-colors border border-amber-500/20">
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="1.75">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                            </svg>
+                            Inbox
+                        </div>
+                        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/20">4</span>
+                    </a>
+                    <a href="#"
+                       class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-400 hover:bg-white/5 hover:text-slate-300 font-medium text-sm transition-colors">
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="1.75">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                            </svg>
+                            Starred
+                        </div>
+                    </a>
+                    <a href="#"
+                       class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-400 hover:bg-white/5 hover:text-slate-300 font-medium text-sm transition-colors">
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="1.75">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                            Sent
+                        </div>
+                    </a>
+                    <a href="#"
+                       class="flex items-center justify-between px-3 py-2 rounded-lg text-slate-400 hover:bg-white/5 hover:text-slate-300 font-medium text-sm transition-colors">
+                        <div class="flex items-center gap-2.5">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="1.75">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Drafts
+                        </div>
+                        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-700 text-white">2</span>
+                    </a>
+                </div>
+                <div class="p-4 border-t border-white/5">
+                    <p class="text-xs text-slate-500 font-medium mb-2">Labels</p>
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 text-sm text-slate-400 cursor-pointer hover:text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span> Work
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-400 cursor-pointer hover:text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-rose-500"></span> Urgent
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-slate-400 cursor-pointer hover:text-slate-300">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Projects
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Inbox List -->
+            <div class="w-full md:w-80 lg:w-96 border-r border-white/5 bg-[#0a0c12]/10 flex flex-col flex-shrink-0">
+                <div class="p-4 border-b border-white/5 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox"
+                               class="rounded border-slate-600 bg-[#0f1117] text-amber-500 focus:ring-amber-500/50">
+                        <svg class="w-4 h-4 text-slate-500 cursor-pointer hover:text-slate-300"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </div>
+                    <!-- Pagination arrows -->
+                    <div class="flex text-slate-500">
+                        <button class="p-1 hover:text-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="p-1 hover:text-white transition-colors">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto divide-y divide-white/5">
+                    <!-- Selected Email -->
+                    <div class="p-4 bg-amber-500/5 cursor-pointer border-l-2 border-amber-500 group relative">
+                        <div class="flex justify-between items-start mb-1">
+                            <p class="text-sm font-semibold text-white truncate pr-2">Sarah Jenkins</p>
+                            <p class="text-[10px] text-amber-500 font-medium whitespace-nowrap">10:42 AM</p>
+                        </div>
+                        <p class="text-xs font-medium text-slate-200 mb-1 truncate">Updates on Q3 Product Roadmap</p>
+                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                            Hi team, following our discussion yesterday, I've updated the roadmap to reflect the new AI features we want to prioritize...
+                        </p>
+                    </div>
+                    <!-- Unread Email -->
+                    <div class="p-4 cursor-pointer hover:bg-white/5 transition-colors group relative">
+                        <div class="absolute left-2 top-5 w-2 h-2 rounded-full bg-amber-500"></div>
+                        <div class="flex justify-between items-start mb-1 pl-3">
+                            <p class="text-sm font-bold text-white truncate pr-2">Alex Chen</p>
+                            <p class="text-[10px] text-slate-400 font-medium whitespace-nowrap">Yesterday</p>
+                        </div>
+                        <p class="text-xs font-bold text-slate-200 mb-1 pl-3 truncate">Frontend Architecture Review</p>
+                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed pl-3">
+                            Could we schedule a quick sync to review the proposed component structure for the new dashboard?
+                        </p>
+                    </div>
+                    <!-- Read Email -->
+                    <div class="p-4 cursor-pointer hover:bg-white/5 transition-colors group">
+                        <div class="flex justify-between items-start mb-1 pl-3">
+                            <p class="text-sm font-medium text-slate-400 truncate pr-2">Stripe Notifications</p>
+                            <p class="text-[10px] text-slate-500 font-medium whitespace-nowrap">Oct 24</p>
+                        </div>
+                        <p class="text-xs font-medium text-slate-400 mb-1 pl-3 truncate">Payment received: INV-10492</p>
+                        <p class="text-xs text-slate-600 line-clamp-2 leading-relaxed pl-3">
+                            Your recent payout of $1,240.00 has been processed and is on its way to your bank account...
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Read Pane -->
+            <div class="flex-1 flex flex-col bg-transparent overflow-hidden">
+                <!-- Email Toolbar -->
+                <div class="p-4 border-b border-white/5 flex items-center justify-between">
+                    <div class="flex items-center gap-2 text-slate-400">
+                        <button class="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors"
+                                title="Reply">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                            </svg>
+                        </button>
+                        <button class="p-1.5 rounded-lg hover:bg-white/10 hover:text-white transition-colors"
+                                title="Forward">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 0 00-8 8v2M21 10l-6 6m6-6l-6-6" />
+                            </svg>
+                        </button>
+                        <div class="w-px h-5 bg-white/10 mx-1"></div>
+                        <button class="p-1.5 rounded-lg hover:bg-rose-500/20 hover:text-rose-400 transition-colors"
+                                title="Delete">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-amber-500/30 text-amber-400 text-[11px] font-bold uppercase tracking-wider hover:bg-amber-500/10 transition-colors">
+                            <svg class="w-3.5 h-3.5"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Draft Reply
+                        </button>
+                    </div>
+                </div>
+                <!-- Email Content -->
+                <div class="flex-1 overflow-y-auto p-6 scrollbar-hide">
+                    <div class="max-w-3xl mx-auto">
+                        <h2 class="text-2xl font-bold text-white mb-6">Updates on Q3 Product Roadmap</h2>
+                        <div class="flex items-center justify-between mb-8">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold border border-white/10 shadow-sm">
+                                    SJ
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-white">
+                                        Sarah Jenkins <span class="text-slate-500 text-xs font-normal ml-1">&lt;sarah.j@company.com&gt;</span>
+                                    </p>
+                                    <p class="text-xs text-slate-400">To: Product Team</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-500 font-medium">10:42 AM (3 hours ago)</p>
+                        </div>
+                        <div class="prose prose-invert prose-slate prose-sm max-w-none text-slate-300">
+                            <p>Hi team,</p>
+                            <p>
+                                Following our discussion yesterday, I've updated the roadmap to reflect the new AI features we want to prioritize for Q3.
+                            </p>
+                            <p>The main changes include:</p>
+                            <ul>
+                                <li>Pulling the "Smart Email Assistant" feature forward to sprint 4.</li>
+                                <li>Delaying the legacy data migration tool by two weeks.</li>
+                                <li>Adding dedicated engineering bandwidth for prompt tuning.</li>
+                            </ul>
+                            <p>Please review the attached updated deck and leave your comments directly in the slides before our sync tomorrow.</p>
+                            <p>
+                                Best regards,
+                                <br>
+                                Sarah
+                            </p>
+                        </div>
+                        <!-- Attachments -->
+                        <div class="mt-8 pt-6 border-t border-white/5">
+                            <p class="text-xs text-slate-500 font-medium mb-3">1 Attachment</p>
+                            <div class="flex">
+                                <div class="flex items-center gap-3 p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors cursor-pointer group">
+                                    <div class="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400">
+                                        <svg class="w-5 h-5"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke="currentColor"
+                                             stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-slate-200 group-hover:text-amber-400 transition-colors">Q3_Roadmap_v2.pdf</p>
+                                        <p class="text-[10px] text-slate-500">2.4 MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- AI Reply Suggestion block -->
+                        <div class="mt-10 rounded-2xl bg-amber-500/5 border border-amber-500/20 p-5 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 p-3 opacity-20">
+                                <svg class="w-20 h-20 text-amber-500"
+                                     fill="currentColor"
+                                     viewBox="0 0 20 20">
+                                    <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-3.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm4.8 6.4a.5.5 0 01-.6.4c-1.3-.4-2-.4-3.4 0a.5.5 0 01-.3-.9c1.6-.4 2.5-.4 4 0a.5.5 0 01.3.5zm-.3-4.9a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex items-center gap-2 text-amber-500 font-bold text-xs uppercase tracking-wider mb-3">
+                                <svg class="w-4 h-4"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor"
+                                     stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                AI Suggested Reply
+                            </div>
+                            <div class="bg-[#0a0c12]/80 border border-white/10 rounded-xl p-4 text-sm text-slate-300 mb-4 shadow-inner relative z-10">
+                                Hi Sarah, thanks for the update. The revised roadmap looks solid, and prioritizing the Smart Email Assistant makes sense given the recent user feedback. I will review the deck today and add my comments before the sync.
+                            </div>
+                            <div class="flex justify-end gap-2 relative z-10">
+                                <button class="px-3 py-1.5 text-xs text-slate-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors font-medium">
+                                    Dismiss
+                                </button>
+                                <button class="px-4 py-1.5 text-xs bg-amber-500 hover:bg-amber-400 text-[#0f1117] rounded-lg font-bold transition-colors shadow-sm">
+                                    Insert Draft
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Email Selection styling & Drag setup
+    const emailListItems = document.querySelectorAll('.w-full.md\\:w-80.lg\\:w-96 .flex-1 > div');
+    
+    emailListItems.forEach(item => {
+        // Click to select
+        item.addEventListener('click', (e) => {
+            if(e.target.tagName === 'INPUT' || e.target.closest('.absolute')) return;
+            emailListItems.forEach(el => {
+                el.classList.remove('bg-amber-500/5', 'border-l-2', 'border-amber-500');
+                if(!el.querySelector('.absolute.w-2.h-2')) el.classList.add('hover:bg-white/5');
+            });
+            item.classList.add('bg-amber-500/5', 'border-l-2', 'border-amber-500');
+            item.classList.remove('hover:bg-white/5');
+            const dot = item.querySelector('.absolute.w-2.h-2.rounded-full.bg-amber-500');
+            if (dot) dot.remove();
+        });
+
+        // Drag Setup
+        item.setAttribute('draggable', 'true');
+        item.addEventListener('dragstart', (e) => {
+            item.classList.add('opacity-50', 'scale-[0.98]');
+            e.dataTransfer.effectAllowed = 'move';
+            window.draggedEmail = item;
+            if (e.dataTransfer.setData) e.dataTransfer.setData('text/plain', '');
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('opacity-50', 'scale-[0.98]');
+            window.draggedEmail = null;
+        });
+    });
+
+    // Folders as Drop Targets
+    const folders = document.querySelectorAll('.w-full.md\\:w-56 .flex-1.py-2.px-2 a');
+    const labels = document.querySelectorAll('.p-4.border-t.border-white\\/5 .space-y-1 > div');
+    const dropTargets = [...folders, ...labels];
+
+    dropTargets.forEach(target => {
+        target.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            target.classList.add('bg-white/10', 'ring-1', 'ring-amber-500/50', 'rounded-lg');
+        });
+
+        target.addEventListener('dragleave', () => {
+            target.classList.remove('bg-white/10', 'ring-1', 'ring-amber-500/50', 'rounded-lg');
+        });
+
+        target.addEventListener('drop', (e) => {
+            e.preventDefault();
+            target.classList.remove('bg-white/10', 'ring-1', 'ring-amber-500/50', 'rounded-lg');
+            
+            const email = window.draggedEmail;
+            if (email) {
+                // If it's a folder with a counter, increment it
+                const badge = target.querySelector('span:last-child');
+                if (badge && !badge.classList.contains('w-2')) { // don't increment label circle
+                    badge.textContent = parseInt(badge.textContent || "0") + 1;
+                    
+                    // Simple animation for the badge
+                    badge.classList.add('scale-150', 'transition-transform');
+                    setTimeout(() => badge.classList.remove('scale-150'), 200);
+                } else if (!badge && target.tagName === 'A') {
+                    // Create badge if it didn't exist (like on Starred/Sent)
+                    const newBadge = document.createElement('span');
+                    newBadge.className = 'text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-slate-700 text-white animate-pulse';
+                    newBadge.textContent = '1';
+                    target.appendChild(newBadge);
+                }
+
+                // Remove the email from the list
+                email.style.transition = 'opacity 0.3s ease, height 0.3s ease';
+                email.style.opacity = '0';
+                email.style.height = '0px';
+                email.style.padding = '0px';
+                email.style.border = 'none';
+                setTimeout(() => email.remove(), 300);
+            }
+        });
+    });
+
+    // 2. AI Suggestion block buttons
+    const suggestionBlock = document.querySelector('.mt-10.rounded-2xl.bg-amber-500\\/5');
+    if (suggestionBlock) {
+        const dismissBtn = suggestionBlock.querySelector('button:first-of-type');
+        const insertBtn = suggestionBlock.querySelector('button:last-of-type');
+        
+        dismissBtn.addEventListener('click', () => {
+            suggestionBlock.style.opacity = '0';
+            suggestionBlock.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => suggestionBlock.style.display = 'none', 300);
+        });
+
+        insertBtn.addEventListener('click', () => {
+            const draftText = suggestionBlock.querySelector('.text-slate-300').textContent.trim();
+            suggestionBlock.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3 text-emerald-400 font-bold text-sm">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                        Draft Inserted to Reply Box!
+                    </div>
+                </div>
+            `;
+            suggestionBlock.className = 'mt-10 rounded-2xl bg-emerald-500/5 border border-emerald-500/20 p-5 transition-all';
+        });
+    }
+});
+</script>
+{% endblock content %}

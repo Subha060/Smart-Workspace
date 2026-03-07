@@ -1,0 +1,4 @@
+Django
+django-tailwind
+django-browser-reload
+requests
