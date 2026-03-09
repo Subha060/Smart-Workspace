@@ -9,19 +9,16 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-# added this
-from dotenv import load_dotenv
-import os
-
-load_dotenv()  # to read .env file 
-
-
-
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables
+from dotenv import load_dotenv
+env_path = BASE_DIR / 'smart_workspace' / '.env'
+load_dotenv(dotenv_path=env_path)
 
 
 # Quick-start development settings - unsuitable for production
@@ -49,6 +46,9 @@ INSTALLED_APPS = [
     "tailwind_css",
     "jinja2",
     'ai_engine',
+    'accounts',
+    'assistant',
+    'dashboard',
 ]
 
 TAILWIND_APP_NAME = "tailwind_css"

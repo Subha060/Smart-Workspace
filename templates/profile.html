@@ -1,0 +1,161 @@
+{% extends "base_app.html" %}
+{% block title %}
+    Profile Settings - Smart Workspace
+{% endblock title %}
+{% block content %}
+    <div class="px-6 py-8 md:px-10 lg:px-12 flex flex-col h-full max-w-4xl mx-auto w-full">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold text-white tracking-tight">Profile Settings</h1>
+            <p class="text-slate-400 text-sm mt-1">Manage your account and AI assistant preferences</p>
+        </div>
+        {% if messages %}
+            <div class="mb-8">
+                {% for message in messages %}
+                    <div class="p-4 rounded-xl {% if message.tags == 'error' %}bg-red-500/10 border border-red-500/20 text-red-400{% else %}bg-emerald-500/10 border border-emerald-500/20 text-emerald-400{% endif %} flex items-center gap-3">
+                        {% if message.tags == 'error' %}
+                            <svg class="w-5 h-5 flex-shrink-0"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        {% else %}
+                            <svg class="w-5 h-5 flex-shrink-0"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        {% endif %}
+                        <p class="text-sm font-medium">{{ message }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="grid grid-cols-1 gap-8">
+            <!-- Account Info Card -->
+            <div class="rounded-2xl bg-white/5 border border-white/10 overflow-hidden">
+                <div class="p-6 border-b border-white/10">
+                    <h2 class="text-lg font-semibold text-white">Account Details</h2>
+                    <p class="text-sm text-slate-400 mt-1">Your basic personal information</p>
+                </div>
+                <div class="p-6 space-y-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-blue-500/20">
+                            {{ request.user.first_name|first|default:request.user.username|first|upper }}
+                        </div>
+                        <div>
+                            <p class="text-lg font-medium text-white">{{ request.user.get_full_name|default:request.user.username }}</p>
+                            <p class="text-sm text-slate-400">{{ request.user.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- AI Settings Card -->
+            <div class="rounded-2xl bg-white/5 border border-white/10 overflow-hidden">
+                <div class="p-6 border-b border-white/10 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-lg font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5 text-purple-400"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            AI Configuration
+                        </h2>
+                        <p class="text-sm text-slate-400 mt-1">Connect your personal Google Gemini API key</p>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <form method="POST" action="{% url 'profile' %}" class="space-y-6">
+                        {% csrf_token %}
+                        <!-- API Key Input -->
+                        <div>
+                            <label for="ai_api_key"
+                                   class="block text-sm font-medium text-slate-300 mb-2">
+                                Google AI Studio API Key
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-slate-500"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                    </svg>
+                                </div>
+                                <input type="password"
+                                       name="ai_api_key"
+                                       id="ai_api_key"
+                                       value="{{ api_key|default:'' }}"
+                                       class="block w-full pl-10 pr-4 py-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                                       placeholder="AIzaSy...">
+                            </div>
+                            <p class="mt-2 text-xs text-slate-500">
+                                Your key is stored securely. Leave blank to use the default workspace key. Get your key from <a href="https://aistudio.google.com/app/apikey"
+    target="_blank"
+    class="text-purple-400 hover:text-purple-300 underline underline-offset-2">Google AI Studio</a>.
+                            </p>
+                        </div>
+                        <!-- AI Model Dropdown -->
+                        <div>
+                            <label for="ai_model" class="block text-sm font-medium text-slate-300 mb-2">Google Generative AI Model</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-slate-500"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                    </svg>
+                                </div>
+                                <select name="ai_model"
+                                        id="ai_model"
+                                        class="block w-full appearance-none pl-10 pr-10 py-3 bg-black/20 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all">
+                                    <option value="gemini-2.5-flash"
+                                            class="bg-slate-900 text-white"
+                                            {% if ai_model == 'gemini-2.5-flash' %}selected{% endif %}>
+                                        Gemini 2.5 Flash (Default)
+                                    </option>
+                                    <option value="gemini-1.5-flash"
+                                            class="bg-slate-900 text-white"
+                                            {% if ai_model == 'gemini-1.5-flash' %}selected{% endif %}>
+                                        Gemini 1.5 Flash
+                                    </option>
+                                    <option value="gemini-2.0-flash"
+                                            class="bg-slate-900 text-white"
+                                            {% if ai_model == 'gemini-2.0-flash' %}selected{% endif %}>
+                                        Gemini 2.0 Flash
+                                    </option>
+                                    <option value="gemini-2.5-pro"
+                                            class="bg-slate-900 text-white"
+                                            {% if ai_model == 'gemini-2.5-pro' %}selected{% endif %}>
+                                        Gemini 2.5 Pro
+                                    </option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-slate-500"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <p class="mt-2 text-xs text-slate-500">Select the underlying engine powering your assistant capabilities.</p>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                    class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white text-sm font-medium rounded-xl shadow-lg shadow-purple-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

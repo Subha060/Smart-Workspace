@@ -22,6 +22,26 @@
                 <p class="text-slate-400 text-sm mt-1 mb-0">Track today's goals and manage your daily timeline.</p>
             </div>
             <div class="flex items-center gap-3">
+                <button id="aiSuggestGoalsBtn"
+                        class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-rose-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all flex items-center gap-2 group">
+                    <svg class="w-4 h-4 text-rose-500 group-hover:animate-pulse"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Suggest Goals
+                </button>
+                <button id="aiSmartScheduleBtn"
+                        class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-rose-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all flex items-center gap-2 group">
+                    <svg class="w-4 h-4 text-rose-500"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Smart Schedule
+                </button>
                 <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-medium text-sm shadow-lg shadow-rose-500/25 hover:shadow-rose-500/40 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-rose-500/50 flex items-center gap-2">
                     <svg class="w-4 h-4"
                          fill="none"
@@ -376,6 +396,68 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
         `;
     });
+    // --- AI Planner Logic ---
+    const suggestBtn = document.getElementById('aiSuggestGoalsBtn');
+    const scheduleBtn = document.getElementById('aiSmartScheduleBtn');
+
+    if (suggestBtn) {
+        suggestBtn.addEventListener('click', async () => {
+            suggestBtn.textContent = '...';
+            suggestBtn.disabled = true;
+            try {
+                const response = await fetch('/assistant/chat-api/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: 'goal_suggest', text: 'Daily planning context' })
+                });
+                const data = await response.json();
+                
+                // Add suggested goals to the list
+                const goalsList = document.querySelector('.space-y-4');
+                data.goals.forEach(goalText => {
+                    const goalItem = document.createElement('div');
+                    goalItem.className = 'flex items-center group bg-white/5 p-4 rounded-xl border border-white/10 hover:border-rose-500/30 transition-all cursor-pointer';
+                    goalItem.innerHTML = `
+                        <div class="w-5 h-5 rounded-md border-2 border-slate-600 flex items-center justify-center mr-4 group-hover:border-rose-500 transition-colors"></div>
+                        <span class="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">${goalText}</span>
+                    `;
+                    goalsList.appendChild(goalItem);
+                });
+            } catch (error) {
+                console.error('Goal suggestion failed:', error);
+            } finally {
+                suggestBtn.innerHTML = `
+                    <svg class="w-4 h-4 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    Suggest Goals
+                `;
+                suggestBtn.disabled = false;
+            }
+        });
+    }
+
+    if (scheduleBtn) {
+        scheduleBtn.addEventListener('click', async () => {
+            scheduleBtn.textContent = '...';
+            scheduleBtn.disabled = true;
+            try {
+                const response = await fetch('/assistant/chat-api/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: 'Daily Plan', text: 'Optimize my schedule' })
+                });
+                const data = await response.json();
+                alert('AI suggests: ' + data.response);
+            } catch (error) {
+                console.error('Scheduling failed:', error);
+            } finally {
+                scheduleBtn.innerHTML = `
+                    <svg class="w-4 h-4 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Smart Schedule
+                `;
+                scheduleBtn.disabled = false;
+            }
+        });
+    }
 });
 </script>
 {% endblock content %}

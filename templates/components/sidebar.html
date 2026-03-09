@@ -138,7 +138,7 @@
     </nav>
     <!-- Bottom Section: Profile + Logout -->
     <div class="p-3 border-t border-white/5 space-y-0.5">
-        <a href="#"
+        <a href="{% url 'profile' %}"
            id="nav-profile"
            class="sidebar-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-200">
             <span class="w-8 h-8 rounded-lg overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
@@ -155,7 +155,7 @@
                 <p class="text-[10px] text-slate-600 truncate">Manage account</p>
             </div>
         </a>
-        <a href="#"
+        <a href="{% url 'logout' %}"
            id="nav-logout"
            class="sidebar-link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-500/5 transition-all duration-200">
             <span class="sidebar-icon w-8 h-8 rounded-lg bg-white/0 group-hover:bg-red-500/10 flex items-center justify-center transition-colors duration-200">

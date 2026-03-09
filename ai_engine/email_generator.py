@@ -1,5 +1,6 @@
-
-from .base import generate
+import json
+from datetime import date
+from .base import generate, clean_json
 
 
 TONE_DESCRIPTIONS = {
@@ -15,41 +16,72 @@ TONE_DESCRIPTIONS = {
 def draft_email(
     brief: str,
     recipient: str = '',
+    recipient_org: str = '',
+    recipient_address: str = '',
     tone: str = 'professional',
     context: str = '',
     sender_name: str = '',
-) -> str:
-   
+    sender_address: str = '',
+    sender_designation: str = '',
+    api_key: str = None,
+    model_name: str = 'gemini-2.5-flash'
+) -> dict:
+    
     tone_desc = TONE_DESCRIPTIONS.get(tone, TONE_DESCRIPTIONS['professional'])
+    today_str = date.today().strftime('%d %B %Y')
+    extra     = f"Additional context: {context}" if context else ""
 
-    recipient_line = f"To: {recipient}" if recipient else "To: appropriate recipient (infer from context)"
-    context_line   = f"Additional context: {context}" if context else ""
-    sender_line    = f"Sign off with the name: {sender_name}" if sender_name else "Use a generic sign-off"
-
-    prompt = f"""You are an expert business email writer. Write a complete email based on the following brief.
+    prompt = f"""You are an expert letter/email writer. Generate a formal letter based on the brief below.
 
 BRIEF: {brief}
-{recipient_line}
+SENDER NAME: {sender_name if sender_name else 'infer from context'}
+SENDER ADDRESS: {sender_address if sender_address else 'not provided'}
+SENDER DESIGNATION: {sender_designation if sender_designation else 'infer from context'}
+RECIPIENT DESIGNATION: {recipient if recipient else 'infer from context'}
+RECIPIENT ORGANIZATION: {recipient_org if recipient_org else 'infer from context'}
+RECIPIENT ADDRESS: {recipient_address if recipient_address else 'infer from context'}
 TONE: {tone_desc}
-{context_line}
-{sender_line}
+{extra}
 
-Requirements:
-1. Start with: Subject: [your subject line here]
-2. Leave a blank line
-3. Write a proper greeting
-4. Well-structured body paragraphs
-5. Professional closing and sign-off
+Return ONLY a valid JSON object — no markdown, no code fences, no explanation.
+Use this exact structure:
 
-Output ONLY the email. No explanations, no preamble:"""
+{{
+  "email": {{
+    "tone": "{tone}",
+    "subject": "clear subject line",
+    "greeting": "appropriate greeting",
+    "body": [
+      "first paragraph",
+      "second paragraph",
+      "third paragraph"
+    ],
+    "closing": "closing line",
+    "signature": "sender name"
+  }}
+}}"""
 
-    return generate(prompt)
+    raw = generate(prompt, json_mode=True, api_key=api_key, model_name=model_name)
+    cleaned = clean_json(raw)
 
+    try:
+        data = json.loads(cleaned)
+        # Handle if the model returns the root level as "email" or just the fields
+        return data if "email" in data else {"email": data}
 
-def extract_subject(email_text: str) -> str:
-    # Pull out just the Subject line from a generated email
-    for line in email_text.split('\n'):
-        stripped = line.strip()
-        if stripped.lower().startswith('subject:'):
-            return stripped.replace('Subject:', '').replace('subject:', '').strip()
-    return 'Email Draft'
+    except (json.JSONDecodeError, Exception):
+        # Graceful fallback with better defaults
+        return {
+            "email": {
+                "tone": tone,
+                "subject": "Inquiry regarding " + (brief[:30] + "..." if len(brief) > 30 else brief),
+                "greeting": "Dear " + (recipient or "Sir/Madam"),
+                "body": [
+                    "I am writing to you regarding the following:",
+                    brief,
+                    "I look forward to hearing from you soon."
+                ],
+                "closing": "Thank you.",
+                "signature": sender_name or "Subha Adak"
+            }
+        }

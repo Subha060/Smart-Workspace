@@ -7,6 +7,8 @@ def structure_notes(
     title: str = 'Meeting',
     attendees: str = '',
     date: str = '',
+    api_key: str = None,
+    model_name: str = 'gemini-2.5-flash',
 ) -> str:
     
     raw_notes = raw_notes[:6000]
@@ -48,4 +50,4 @@ Produce a structured output with EXACTLY these sections (use markdown headers):
 Be concise, professional, and extract only what is mentioned in the notes.
 Output ONLY the structured summary:"""
 
-    return generate(prompt) 
+    return generate(prompt, api_key=api_key, model_name=model_name)

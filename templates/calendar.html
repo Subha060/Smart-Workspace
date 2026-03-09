@@ -22,6 +22,22 @@
                 <p class="text-slate-400 text-sm mt-1 mb-0">Manage your schedule and upcoming meetings.</p>
             </div>
             <div class="flex items-center gap-3">
+                <div class="relative group mr-2">
+                    <input type="text"
+                           id="magicEventInput"
+                           placeholder="Magic Event: 'Lunch with team tomorrow at 1pm'..."
+                           class="w-64 lg:w-80 pl-9 pr-4 py-2 bg-white/5 border border-white/10 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all">
+                    <svg class="w-4 h-4 text-cyan-400 absolute left-3 top-2.5"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <button id="magicEventBtn"
+                            class="absolute right-2 top-1.5 px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase hover:bg-cyan-500/30 transition-all opacity-0 group-focus-within:opacity-100">
+                        Add
+                    </button>
+                </div>
                 <div class="flex bg-white/5 p-1 rounded-xl border border-white/10">
                     <button class="px-4 py-1.5 rounded-lg bg-white/10 text-white text-sm font-medium shadow-sm">Week</button>
                     <button class="px-4 py-1.5 rounded-lg text-slate-400 hover:text-white text-sm font-medium transition-colors">
@@ -311,6 +327,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 titleEditable.blur();
             }
         });
+    // --- Magic Event Logic ---
+    const magicInput = document.getElementById('magicEventInput');
+    const magicAddBtn = document.getElementById('magicEventBtn');
+
+    const handleMagicEvent = async () => {
+        const text = magicInput.value.trim();
+        if (!text) return;
+
+        magicAddBtn.textContent = '...';
+        magicAddBtn.disabled = true;
+
+        try {
+            const response = await fetch('/assistant/chat-api/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mode: 'event_parse', text: text })
+            });
+            const eventData = await response.json();
+
+            // Simplified injection: always find a Wednesday slot for this mock
+            // In a real app, we'd find the date column
+            const targetSlot = wednesdayColumn;
+            
+            const newBlock = document.createElement('div');
+            newBlock.className = 'relative p-1';
+            newBlock.innerHTML = `
+                <div class="absolute inset-x-1 top-2 h-[80px] rounded-lg bg-cyan-500/15 border border-cyan-500/40 p-2 cursor-pointer hover:bg-cyan-500/25 transition-colors z-20 shadow-lg shadow-cyan-500/10">
+                    <p class="text-[10px] text-cyan-400 font-bold leading-tight">${eventData.start_time} - ${eventData.end_time}</p>
+                    <div class="text-xs text-white mt-0.5 font-bold leading-snug">${eventData.title}</div>
+                </div>
+            `;
+            
+            targetSlot.appendChild(newBlock);
+            bindEventDrag(newBlock);
+            magicInput.value = '';
+            
+        } catch (error) {
+            console.error('Magic Event failed:', error);
+            alert('Magic Event failed.');
+        } finally {
+            magicAddBtn.textContent = 'Add';
+            magicAddBtn.disabled = false;
+        }
+    };
+
+    magicAddBtn.addEventListener('click', handleMagicEvent);
+    magicInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleMagicEvent();
     });
 });
     </script>

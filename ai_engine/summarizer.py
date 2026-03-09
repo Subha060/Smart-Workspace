@@ -44,7 +44,7 @@ def extract_text(uploaded_file) -> str:
 
 
 # Summarization 
-def summarize(text: str, format: str = 'bullets', length: str = 'medium') -> str:
+def summarize(text: str, format: str = 'bullets', length: str = 'medium', api_key: str = None, model_name: str = 'gemini-2.5-flash') -> str:
     
     # Trim to avoid token overload
     text = text[:8000]
@@ -76,4 +76,4 @@ Also include at the end:
 
 Provide only the summary, no preamble:"""
 
-    return generate(prompt) 
+    return generate(prompt, api_key=api_key, model_name=model_name)

@@ -21,136 +21,145 @@
                 </h1>
                 <p class="text-slate-400 text-sm mt-1 mb-0">An audit log of all your actions across the workspace.</p>
             </div>
-            <div class="flex items-center gap-3">
-                <button class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all flex items-center gap-2">
-                    <svg class="w-4 h-4"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke="currentColor"
-                         stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                    </svg>
-                    Filter Log
-                </button>
-                <button class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all flex items-center gap-2">
-                    <svg class="w-4 h-4"
-                         fill="none"
-                         viewBox="0 0 24 24"
-                         stroke="currentColor"
-                         stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                    Export
-                </button>
-            </div>
+            <button id="aiSummarizeDayBtn"
+                    class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-indigo-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all flex items-center gap-2 group">
+                <svg class="w-4 h-4 text-indigo-500 group-hover:animate-pulse"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Summarize My Day
+            </button>
+            <button class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all flex items-center gap-2">
+                <svg class="w-4 h-4"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                Filter Log
+            </button>
+            <button class="px-3.5 py-2 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:bg-white/10 font-medium text-sm transition-all flex items-center gap-2">
+                <svg class="w-4 h-4"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor"
+                     stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Export
+            </button>
         </div>
-        <!-- History List -->
-        <div class="flex-1 bg-white/3 border border-white/5 rounded-2xl overflow-y-auto scrollbar-hide">
-            <div class="max-w-4xl mx-auto py-8 px-6">
-                <!-- Date Separator -->
-                <div class="flex items-center gap-4 mb-6">
-                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Today</h3>
-                    <div class="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>
-                </div>
-                <!-- Activity Items -->
-                <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent mb-12">
-                    <!-- Item 1: Kanban -->
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-emerald-500/20 text-emerald-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_10px_rgba(16,185,129,0.2)] z-10">
-                            <svg class="w-4 h-4"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor"
-                                 stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                            </svg>
-                        </div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-bold text-white text-sm">Moved Task</h4>
-                                <time class="text-[10px] font-medium text-slate-500">2 mins ago</time>
-                            </div>
-                            <p class="text-xs text-slate-400 leading-snug">
-                                Moved <span class="text-emerald-400">"Review candidate resumes"</span> to the Done column in Planner. You're on fire!
-                            </p>
-                        </div>
+    </div>
+    <!-- History List -->
+    <div class="flex-1 bg-white/3 border border-white/5 rounded-2xl overflow-y-auto scrollbar-hide">
+        <div class="max-w-4xl mx-auto py-8 px-6">
+            <!-- Date Separator -->
+            <div class="flex items-center gap-4 mb-6">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Today</h3>
+                <div class="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>
+            </div>
+            <!-- Activity Items -->
+            <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent mb-12">
+                <!-- Item 1: Kanban -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-emerald-500/20 text-emerald-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-[0_0_10px_rgba(16,185,129,0.2)] z-10">
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
                     </div>
-                    <!-- Item 2: AI Email -->
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-purple-500/20 text-purple-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                            <svg class="w-4 h-4"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor"
-                                 stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                            </svg>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="font-bold text-white text-sm">Moved Task</h4>
+                            <time class="text-[10px] font-medium text-slate-500">2 mins ago</time>
                         </div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-bold text-white text-sm">AI Activity</h4>
-                                <time class="text-[10px] font-medium text-slate-500">45 mins ago</time>
-                            </div>
-                            <p class="text-xs text-slate-400">
-                                The Assistant auto-generated a draft reply to <span class="text-white font-medium">Updates on Q3 Product Roadmap</span>.
-                            </p>
-                        </div>
-                    </div>
-                    <!-- Item 3: System Login -->
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-blue-500/20 text-blue-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                            <svg class="w-4 h-4"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor"
-                                 stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                            </svg>
-                        </div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-bold text-white text-sm">System Access</h4>
-                                <time class="text-[10px] font-medium text-slate-500">08:42 AM</time>
-                            </div>
-                            <p class="text-xs text-slate-400">
-                                Successfully authenticated and loaded the workspace dashboard from IP 192.168.1.5.
-                            </p>
-                        </div>
+                        <p class="text-xs text-slate-400 leading-snug">
+                            Moved <span class="text-emerald-400">"Review candidate resumes"</span> to the Done column in Planner. You're on fire!
+                        </p>
                     </div>
                 </div>
-                <!-- Date Separator 2 -->
-                <div class="flex items-center gap-4 mb-6">
-                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Yesterday</h3>
-                    <div class="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>
+                <!-- Item 2: AI Email -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-purple-500/20 text-purple-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="font-bold text-white text-sm">AI Activity</h4>
+                            <time class="text-[10px] font-medium text-slate-500">45 mins ago</time>
+                        </div>
+                        <p class="text-xs text-slate-400">
+                            The Assistant auto-generated a draft reply to <span class="text-white font-medium">Updates on Q3 Product Roadmap</span>.
+                        </p>
+                    </div>
                 </div>
-                <!-- Activity Items -->
-                <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
-                    <!-- Item 4: Settings -->
-                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-slate-500/20 text-slate-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
-                            <svg class="w-4 h-4"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke="currentColor"
-                                 stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
+                <!-- Item 3: System Login -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-blue-500/20 text-blue-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                        </svg>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="font-bold text-white text-sm">System Access</h4>
+                            <time class="text-[10px] font-medium text-slate-500">08:42 AM</time>
                         </div>
-                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
-                            <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-bold text-white text-sm">Profile Update</h4>
-                                <time class="text-[10px] font-medium text-slate-500">04:15 PM</time>
-                            </div>
-                            <p class="text-xs text-slate-400">
-                                Updated default application theme to <span class="bg-white/10 text-slate-300 px-1 py-0.5 rounded text-[10px]">Dark Mode</span>.
-                            </p>
+                        <p class="text-xs text-slate-400">
+                            Successfully authenticated and loaded the workspace dashboard from IP 192.168.1.5.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Date Separator 2 -->
+            <div class="flex items-center gap-4 mb-6">
+                <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Yesterday</h3>
+                <div class="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent"></div>
+            </div>
+            <!-- Activity Items -->
+            <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
+                <!-- Item 4: Settings -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0a0c12] bg-slate-500/20 text-slate-400 shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                        <svg class="w-4 h-4"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white/5 border border-white/10 shadow hover:bg-white/10 transition-colors">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="font-bold text-white text-sm">Profile Update</h4>
+                            <time class="text-[10px] font-medium text-slate-500">04:15 PM</time>
                         </div>
+                        <p class="text-xs text-slate-400">
+                            Updated default application theme to <span class="bg-white/10 text-slate-300 px-1 py-0.5 rounded text-[10px]">Dark Mode</span>.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -216,6 +225,37 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // 3. AI Summarize Day Logic
+    const summarizeBtn = document.getElementById('aiSummarizeDayBtn');
+    if (summarizeBtn) {
+        summarizeBtn.addEventListener('click', async () => {
+            summarizeBtn.textContent = 'Summarizing...';
+            summarizeBtn.disabled = true;
+            try {
+                // Get all activity text for context
+                const activities = Array.from(document.querySelectorAll('.space-y-6 p')).map(p => p.textContent.trim()).join('\n');
+                
+                const response = await fetch('/assistant/chat-api/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mode: 'Meeting Summary', text: activities })
+                });
+                const data = await response.json();
+                
+                // Show summary in a nice alert or overlay
+                alert('AI Summary of your day:\n\n' + data.response);
+            } catch (error) {
+                console.error('Summary failed:', error);
+            } finally {
+                summarizeBtn.innerHTML = `
+                    <svg class="w-4 h-4 text-indigo-500 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    Summarize My Day
+                `;
+                summarizeBtn.disabled = false;
+            }
+        });
+    }
 });
 </script>
 {% endblock content %}

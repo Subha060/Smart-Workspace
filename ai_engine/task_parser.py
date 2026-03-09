@@ -1,10 +1,10 @@
 
 import json
 from datetime import date
-from .base import generate
+from .base import generate, clean_json
 
 
-def parse_task(natural_input: str, today: date = None) -> dict:
+def parse_task(natural_input: str, today: date = None, api_key: str = None, model_name: str = 'gemini-2.5-flash') -> dict:
     if today is None:
         today = date.today()
 
@@ -30,18 +30,11 @@ Rules:
 - Infer priority from words like: urgent, ASAP, critical, important (→ high); someday, whenever (→ low)
 - Keep the title action-oriented and short"""
 
-    raw = generate(prompt)
-
-    # Clean up any accidental markdown fences
-    raw = raw.strip()
-    if raw.startswith('```'):
-        lines = raw.split('\n')
-        raw = '\n'.join(lines[1:])
-        if raw.endswith('```'):
-            raw = raw[:-3].strip()
+    raw = generate(prompt, json_mode=True, api_key=api_key, model_name=model_name)
+    cleaned = clean_json(raw)
 
     try:
-        data = json.loads(raw)
+        data = json.loads(cleaned)
         # Sanitize fields
         return {
             'title':       str(data.get('title', natural_input))[:200],
