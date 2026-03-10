@@ -16,7 +16,7 @@
             </svg>
         </div>
         <div>
-            <span class="text-white font-bold text-lg leading-tight tracking-tight">Smart Workspace</span>
+            <span class="text-white font-bold text-lg leading-tight tracking-tight">ScheduX</span>
             <p class="text-slate-500 text-[10px] uppercase tracking-widest font-medium">Workspace</p>
         </div>
         <!-- Mobile close button -->
@@ -151,7 +151,7 @@
                 </svg>
             </span>
             <div class="flex-1 min-w-0">
-                <p class="text-sm font-medium text-slate-300 truncate">User Profile</p>
+                <p class="text-sm font-medium text-slate-300 truncate">{{ user.get_full_name|default:user.username }}</p>
                 <p class="text-[10px] text-slate-600 truncate">Manage account</p>
             </div>
         </a>

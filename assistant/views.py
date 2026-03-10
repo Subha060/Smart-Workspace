@@ -7,6 +7,7 @@ from ai_engine.email_generator import draft_email
 from ai_engine.summarizer import summarize, extract_text
 from ai_engine.task_parser import parse_task
 from accounts.models import UserProfile
+import uuid
 
 @csrf_exempt
 @login_required
@@ -57,6 +58,8 @@ def chat_api(request):
 
         elif mode == 'task_parse':
             task_data = parse_task(text, api_key=profile.ai_api_key, model_name=profile.ai_model)
+            task_data['id'] = str(uuid.uuid4())
+            task_data.setdefault('status', 'todo')
             tasks = list(profile.tasks)
             tasks.append(task_data)
             profile.tasks = tasks
@@ -108,6 +111,8 @@ def chat_api(request):
 
         elif mode == 'Task Planner':
             task_data = parse_task(text, api_key=profile.ai_api_key, model_name=profile.ai_model)
+            task_data['id'] = str(uuid.uuid4())
+            task_data.setdefault('status', 'todo')
             ai_response = f"I've added the task: **{task_data['title']}**"
             if task_data['due_date']:
                 ai_response += f" (Due: {task_data['due_date']})"

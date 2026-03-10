@@ -22,7 +22,8 @@ Return ONLY a valid JSON object — no markdown, no code fences, no explanation:
   "description": "any extra details or context from the input, or empty string",
   "due_date": "YYYY-MM-DD if a date is mentioned or can be inferred, else null",
   "due_time": "HH:MM in 24h format if a time is mentioned, else null",
-  "priority": "high if urgent/ASAP/critical/important, low if someday/whenever, else medium"
+  "priority": "high if urgent/ASAP/critical/important, low if someday/whenever, else medium",
+  "status": "todo if not specified, else in-progress or done"
 }}
 
 Rules:
@@ -42,6 +43,7 @@ Rules:
             'due_date':    data.get('due_date') or None,
             'due_time':    data.get('due_time') or None,
             'priority':    data.get('priority', 'medium') if data.get('priority') in ('high', 'medium', 'low') else 'medium',
+            'status':      'in-progress' if data.get('status') in ('in_progress', 'in-progress') else ('done' if data.get('status') == 'done' else 'todo'),
         }
     except (json.JSONDecodeError, Exception):
         # Graceful fallback: treat the whole input as the title
@@ -51,4 +53,5 @@ Rules:
             'due_date':    None,
             'due_time':    None,
             'priority':    'medium',
+            'status':      'todo',
         }
