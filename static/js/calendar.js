@@ -1,10 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     let currentView = 'week'; // 'week' or 'month'
+    let weekOffset = 0; // 0 = current week, -1 previous week, +1 next week
+    let monthOffset = 0; // 0 = current month, -1 previous month, +1 next month
 
     // Node References
     const weekContainer = document.getElementById('week-view-container');
     const monthContainer = document.getElementById('month-view-container');
+    const timelineGrid = document.getElementById('timeline-grid');
+    const monthWeekdaysHeader = document.getElementById('month-weekdays-header');
+    const currentDateLabel = document.getElementById('current-date-label');
+    const weekRangeLabel = document.getElementById('week-range-label');
+    const prevWeekBtn = document.getElementById('prev-week-btn');
+    const nextWeekBtn = document.getElementById('next-week-btn');
+    const todayWeekBtn = document.getElementById('today-week-btn');
+
+    const getToday = () => new Date();
+
+    const toLocalDateKey = (date) => {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    };
+
+    const formatDateLabel = (date) => date.toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
     
     // Inject IDs to buttons
     const viewButtons = document.querySelectorAll('.flex.bg-white\\/5.p-1.rounded-xl button');
@@ -40,25 +65,65 @@ document.addEventListener('DOMContentLoaded', () => {
     // -- Data Helper --
     const getWeekDays = () => {
         const curr = new Date();
-        const first = curr.getDate() - curr.getDay() + 1; // Monday
+        curr.setDate(curr.getDate() + weekOffset * 7);
+        const mondayOffset = (curr.getDay() + 6) % 7; // Monday = 0
+        const first = curr.getDate() - mondayOffset;
         const days = [];
-        for (let i = 0; i < 5; i++) {
+        const todayIso = toLocalDateKey(getToday());
+        for (let i = 0; i < 7; i++) {
             const next = new Date(curr.getTime());
             next.setDate(first + i);
-            const iso = next.toISOString().split('T')[0];
+            const iso = toLocalDateKey(next);
             days.push({ 
                 date: next, 
                 isoDate: iso, 
                 dayName: next.toLocaleDateString('en-US', {weekday: 'short'}),
                 dayNum: next.getDate(),
-                isToday: iso === curr.toISOString().split('T')[0]
+                isToday: iso === todayIso
             });
         }
         return days;
     };
 
+    const setWeekMeta = (weekDays) => {
+        if (!currentDateLabel || !weekRangeLabel || !weekDays.length) return;
+        const start = weekDays[0].date;
+        const end = weekDays[weekDays.length - 1].date;
+        currentDateLabel.textContent = `Today: ${formatDateLabel(getToday())}`;
+        weekRangeLabel.textContent = `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    };
+
+    const setMonthMeta = (monthDate) => {
+        if (!currentDateLabel || !weekRangeLabel) return;
+        currentDateLabel.textContent = `Today: ${formatDateLabel(getToday())}`;
+        weekRangeLabel.textContent = monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    };
+
+    const updateCurrentTimeLine = (weekDays) => {
+        const line = document.getElementById('current-time-line');
+        if (!line || currentView !== 'week') return;
+        const todayIso = toLocalDateKey(getToday());
+        const includesToday = weekDays.some(d => d.isoDate === todayIso);
+        const now = new Date();
+        const hourFraction = now.getHours() + now.getMinutes() / 60;
+
+        if (!includesToday || hourFraction < 6 || hourFraction > 20.99) {
+            line.classList.add('hidden');
+            return;
+        }
+
+        line.classList.remove('hidden');
+        line.style.top = `${(hourFraction - 6) * 80}px`;
+
+        if (timelineGrid && weekOffset === 0) {
+            const target = Math.max(0, (hourFraction - 7) * 80);
+            timelineGrid.scrollTo({ top: target, behavior: 'smooth' });
+        }
+    };
+
     const getMonthDays = () => {
         const curr = new Date();
+        curr.setMonth(curr.getMonth() + monthOffset);
         const year = curr.getFullYear();
         const month = curr.getMonth();
         
@@ -73,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const d = new Date(year, month, -i);
             days.push({
                 date: d,
-                isoDate: d.toISOString().split('T')[0],
+                isoDate: toLocalDateKey(d),
                 dayNum: d.getDate(),
                 isCurrentMonth: false,
                 isToday: false
@@ -81,10 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Current month days
-        const todayIso = new Date().toISOString().split('T')[0];
+        const todayIso = toLocalDateKey(getToday());
         for (let i = 1; i <= lastDay.getDate(); i++) {
             const d = new Date(year, month, i);
-            const iso = d.toISOString().split('T')[0];
+            const iso = toLocalDateKey(d);
             days.push({
                 date: d,
                 isoDate: iso,
@@ -95,12 +160,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Pad next month
-        const remaining = 35 - days.length; // 5 rows of 7
+        const totalCells = days.length > 35 ? 42 : 35; // 6-row months need 42 cells
+        const remaining = totalCells - days.length;
         for (let i = 1; i <= remaining; i++) {
             const d = new Date(year, month + 1, i);
             days.push({
                 date: d,
-                isoDate: d.toISOString().split('T')[0],
+                isoDate: toLocalDateKey(d),
                 dayNum: d.getDate(),
                 isCurrentMonth: false,
                 isToday: false
@@ -116,7 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysHeader = document.getElementById('days-header');
         const hoursGrid = document.getElementById('hours-grid');
 
-        let headerHtml = `<div class="w-16 border-r border-white/5"></div><div class="flex-1 grid grid-cols-5 text-center divide-x divide-white/5">`;
+        setWeekMeta(weekDays);
+
+        let headerHtml = `<div class="w-16 border-r border-white/5"></div><div class="flex-1 grid text-center divide-x divide-white/5" style="grid-template-columns: repeat(${weekDays.length}, minmax(0, 1fr));">`;
         weekDays.forEach(day => {
             const activeClass = day.isToday ? 'bg-cyan-500/5 relative' : '';
             const indicator = day.isToday ? '<div class="absolute top-0 left-0 w-full h-0.5 bg-cyan-500"></div>' : '';
@@ -142,13 +210,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="w-16 flex items-center justify-center border-r border-white/5 text-[10px] text-slate-500 font-medium bg-[#0f1117]/80">
                         ${displayHour}
                     </div>
-                    <div class="flex-1 grid grid-cols-5 divide-x divide-white/5">`;
+                    <div class="flex-1 grid divide-x divide-white/5" style="grid-template-columns: repeat(${weekDays.length}, minmax(0, 1fr));">`;
             weekDays.forEach(day => {
                 gridHtml += `<div class="relative p-1 drop-zone week-zone" data-date="${day.isoDate}" data-time="${timeStr}"></div>`;
             });
             gridHtml += `</div></div>`;
         }
         hoursGrid.innerHTML = gridHtml;
+        updateCurrentTimeLine(weekDays);
 
         const searchQuery = (document.getElementById('searchEventInput') ? document.getElementById('searchEventInput').value.toLowerCase() : '');
         window.eventsData.forEach(event => {
@@ -193,6 +262,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderMonthView = () => {
         const monthDays = getMonthDays();
         const monthGrid = document.getElementById('month-grid');
+        const monthDate = new Date();
+        monthDate.setMonth(monthDate.getMonth() + monthOffset);
+
+        setMonthMeta(monthDate);
+        monthGrid.style.gridTemplateRows = monthDays.length > 35 ? 'repeat(6, minmax(0, 1fr))' : 'repeat(5, minmax(0, 1fr))';
         
         let gridHtml = '';
         monthDays.forEach(day => {
@@ -200,13 +274,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const textClass = day.isCurrentMonth ? (day.isToday ? 'text-cyan-400 font-bold bg-cyan-500/10 rounded-full w-6 h-6 flex items-center justify-center' : 'text-slate-300 font-medium') : 'text-slate-600 font-medium';
             
             gridHtml += `
-                <div class="p-2 min-h-[100px] ${bgClass} flex flex-col drop-zone month-zone relative" data-date="${day.isoDate}">
+                <div class="p-2 min-h-0 ${bgClass} flex flex-col drop-zone month-zone relative" data-date="${day.isoDate}">
                     <div class="text-sm mb-1 ${textClass} ml-1 mt-1">${day.dayNum}</div>
-                    <div class="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-hide event-container"></div>
+                    <div class="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto scrollbar-hide event-container"></div>
                 </div>
             `;
         });
         monthGrid.innerHTML = gridHtml;
+
+        // Keep weekday headers aligned with body columns when vertical scrollbar appears.
+        requestAnimationFrame(() => {
+            const scrollbarWidth = monthGrid.offsetWidth - monthGrid.clientWidth;
+            if (monthWeekdaysHeader) {
+                monthWeekdaysHeader.style.paddingRight = `${Math.max(0, scrollbarWidth)}px`;
+            }
+        });
 
         const searchQuery = (document.getElementById('searchEventInput') ? document.getElementById('searchEventInput').value.toLowerCase() : '');
         
@@ -340,6 +422,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (prevWeekBtn) {
+        prevWeekBtn.addEventListener('click', () => {
+            if (currentView === 'week') weekOffset -= 1;
+            else monthOffset -= 1;
+            renderCalendar();
+        });
+    }
+
+    if (nextWeekBtn) {
+        nextWeekBtn.addEventListener('click', () => {
+            if (currentView === 'week') weekOffset += 1;
+            else monthOffset += 1;
+            renderCalendar();
+        });
+    }
+
+    if (todayWeekBtn) {
+        todayWeekBtn.addEventListener('click', () => {
+            if (currentView === 'week') weekOffset = 0;
+            else monthOffset = 0;
+            renderCalendar();
+        });
+    }
+
     // Magic Event Logic
     const magicBtn = document.getElementById('magicEventBtn');
     const magicModal = document.getElementById('magicEventModal');
@@ -407,6 +513,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !magicModal.classList.contains('hidden')) {
             toggleMagicModal(false);
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        if (currentView === 'month') {
+            renderMonthView();
+            setupDragAndDrop();
         }
     });
 });
