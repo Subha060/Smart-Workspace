@@ -6,6 +6,7 @@ from ai_engine.base import generate, clean_json
 from ai_engine.email_generator import draft_email
 from ai_engine.summarizer import summarize, extract_text
 from ai_engine.task_parser import parse_task
+from ai_engine.promptDeterminer import classify_prompt  
 from accounts.models import UserProfile, Task, Summary, AIChat, EmailDraft
 import uuid
 
@@ -31,6 +32,9 @@ def chat_api(request):
 
         profile, _ = UserProfile.objects.get_or_create(user=request.user)
         ai_response = ""
+
+         if mode == "": 
+            mode = classify_prompt(text)
 
         if mode == 'Meeting Assistant':
             fmt = params.get('format', 'bullets')
