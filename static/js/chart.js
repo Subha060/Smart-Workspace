@@ -14,6 +14,7 @@
 
   let selectedFile = null;
   let conversation = []; // {role, text, time}
+  let isGenerating = false;
 
   /* ─── Helpers ─── */
   function now() {
@@ -34,7 +35,11 @@
   function autoResize() {
     inputEl.style.height = "auto";
     inputEl.style.height = Math.min(inputEl.scrollHeight, 144) + "px";
-    sendBtn.disabled = !inputEl.value.trim();
+    updateSendButtonState();
+  }
+
+  function updateSendButtonState() {
+    sendBtn.disabled = isGenerating || (!inputEl.value.trim() && !selectedFile);
   }
 
   function scrollBottom() {
@@ -93,6 +98,7 @@
 
   /* ─── Send message ─── */
   async function sendMessage() {
+    if (isGenerating) return;
     let text = inputEl.value.trim();
     if (!text && !selectedFile) return;
 
@@ -103,7 +109,8 @@
     addMessage("user", fullText);
     inputEl.value = "";
     inputEl.style.height = "auto";
-    sendBtn.disabled = true;
+    isGenerating = true;
+    updateSendButtonState();
 
     // Show typing
     typingEl.classList.remove("hidden");
@@ -144,7 +151,9 @@
       typingEl.classList.add("hidden");
       addMessage("ai", "⚠️ Network error. Please try again.");
     } finally {
+      isGenerating = false;
       clearFile();
+      updateSendButtonState();
     }
   }
 
@@ -267,8 +276,7 @@
     fileChip.classList.add("hidden");
     fileChip.classList.remove("flex");
     fileChipName.textContent = "";
-    // Re-evaluate send button
-    sendBtn.disabled = !inputEl.value.trim();
+    updateSendButtonState();
   }
 
   function clearMode() {
@@ -306,7 +314,7 @@
     fileChipName.textContent = file.name;
     fileChip.classList.remove("hidden");
     fileChip.classList.add("flex");
-    sendBtn.disabled = false; // allow send with just a file
+    updateSendButtonState(); // allow send with just a file
   });
 
   fileRemoveBtn.addEventListener("click", (e) => {

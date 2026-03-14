@@ -43,12 +43,12 @@
             </div>
             <div class="flex items-center gap-4">
                 <div class="flex flex-col items-end">
-                    <span class="text-white font-bold text-lg leading-none" id="summaries-total">{{ summaries|length }}</span>
+                    <span class="text-white font-bold text-lg leading-none"
+                          id="summaries-total">{{ summaries|length }}</span>
                     <span class="text-slate-500 text-[9px] uppercase tracking-widest font-bold mt-1">Generated</span>
                 </div>
             </div>
         </div>
-
         <!-- UI Grid -->
         <div class="flex-1 min-h-0 bg-white/3 border border-white/5 rounded-2xl overflow-hidden flex flex-col md:flex-row h-full">
             <!-- Summary Sidebar List -->
@@ -58,7 +58,8 @@
                         Archive <span class="text-xs font-normal text-slate-500 ml-1">({{ summaries|length }})</span>
                     </p>
                 </div>
-                <div class="flex-1 overflow-y-auto divide-y divide-white/5 min-h-0" id="summary-list">
+                <div class="flex-1 overflow-y-auto divide-y divide-white/5 min-h-0"
+                     id="summary-list">
                     {% for summary in summaries %}
                         <div class="p-4 cursor-pointer border-l-2 {% if forloop.first %}bg-indigo-500/5 border-indigo-500{% else %}border-transparent hover:bg-white/5{% endif %} transition-colors group relative summary-item"
                              id="summary-item-{{ summary.id }}"
@@ -74,7 +75,11 @@
                         </div>
                     {% empty %}
                         <div class="p-8 text-center text-slate-500 flex flex-col items-center justify-center h-full gap-4 opacity-70">
-                            <svg class="w-12 h-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                            <svg class="w-12 h-12 text-slate-600"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <div>
@@ -85,7 +90,6 @@
                     {% endfor %}
                 </div>
             </div>
-
             <!-- Detail Pane -->
             <div class="flex-1 flex flex-col bg-transparent overflow-hidden min-h-0">
                 <!-- Toolbar -->
@@ -94,14 +98,17 @@
                         <button id="delete-btn"
                                 class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg hover:bg-rose-500/20 hover:text-rose-400 transition-colors text-xs font-medium"
                                 title="Delete this summary">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <svg class="w-4 h-4"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke="currentColor"
+                                 stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                             </svg>
                             Purge
                         </button>
                     </div>
                 </div>
-
                 <!-- Content -->
                 <div class="flex-1 overflow-y-auto p-6 md:p-12 summary-body-scroll min-h-0">
                     <div class="max-w-4xl mx-auto" id="read-content">
@@ -110,7 +117,11 @@
                             <div class="mb-20">
                                 <div class="flex items-center gap-3 mb-8">
                                     <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/20 shadow-inner">
-                                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <svg class="w-6 h-6"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke="currentColor"
+                                             stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                         </svg>
                                     </div>
@@ -119,33 +130,30 @@
                                 <div class="relative">
                                     <div class="absolute -top-10 -left-6 text-indigo-500/10 pointer-events-none">
                                         <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H16.017C14.9124 8 14.017 7.10457 14.017 6V4H21.017V15C21.017 17.7614 18.7784 20 16.017 20H14.017V21ZM5.017 21L5.017 18C5.017 16.8954 5.91243 16 7.017 16H10.017C10.5693 16 11.017 15.5523 11.017 15V9C11.017 8.44772 10.5693 8 10.017 8H7.017C5.91243 8 5.017 7.10457 5.017 6V4H12.017V15C12.017 17.7614 9.77843 20 7.017 20H5.017V21Z"/>
+                                            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H16.017C14.9124 8 14.017 7.10457 14.017 6V4H21.017V15C21.017 17.7614 18.7784 20 16.017 20H14.017V21ZM5.017 21L5.017 18C5.017 16.8954 5.91243 16 7.017 16H10.017C10.5693 16 11.017 15.5523 11.017 15V9C11.017 8.44772 10.5693 8 10.017 8H7.017C5.91243 8 5.017 7.10457 5.017 6V4H12.017V15C12.017 17.7614 9.77843 20 7.017 20H5.017V21Z" />
                                         </svg>
                                     </div>
-                                    <div class="relative z-10 prose prose-invert prose-slate max-w-none 
-                                                prose-p:text-slate-300 prose-p:text-base prose-p:leading-relaxed 
-                                                prose-strong:text-white prose-strong:font-bold 
-                                                prose-ul:list-disc prose-ul:pl-5 prose-li:text-slate-300
-                                                whitespace-pre-line" id="read-synthesis">
-                                        {{ summaries.0.summary_html|safe }}
-                                    </div>
+                                    <div class="relative z-10 prose prose-invert prose-slate max-w-none prose-p:text-slate-300 prose-p:text-base prose-p:leading-relaxed prose-strong:text-white prose-strong:font-bold prose-ul:list-disc prose-ul:pl-5 prose-li:text-slate-300 whitespace-pre-line"
+                                         id="read-synthesis">{{ summaries.0.summary_html|safe }}</div>
                                 </div>
                             </div>
-
                             <!-- Narrative Context -->
                             <div class="pt-16 border-t border-white/5">
                                 <div class="flex items-center gap-3 mb-8">
                                     <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-500 border border-white/10">
-                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <svg class="w-5 h-5"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             stroke="currentColor"
+                                             stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
                                         </svg>
                                     </div>
                                     <h2 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">Contextual Narrative</h2>
                                 </div>
                                 <div class="relative p-10 rounded-[2.5rem] bg-indigo-500/[0.02] border border-indigo-500/10 shadow-[0_0_50px_-12px_rgba(99,102,241,0.12)]">
-                                    <p class="text-slate-400 text-lg leading-relaxed italic font-medium" id="read-preview">
-                                        "{{ summaries.0.original_preview }}"
-                                    </p>
+                                    <p class="text-slate-400 text-lg leading-relaxed italic font-medium"
+                                       id="read-preview">"{{ summaries.0.original_preview }}"</p>
                                 </div>
                                 <div class="mt-10 flex justify-end">
                                     <div class="flex items-center gap-2 text-[10px] text-slate-600 font-bold uppercase tracking-[0.3em]">
@@ -164,92 +172,7 @@
             </div>
         </div>
     </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const summaries = {{ summaries_json|safe|default:"[]" }};
-        const summaryItems = document.querySelectorAll('.summary-item');
-        const readSynthesis = document.getElementById('read-synthesis');
-        const readPreview = document.getElementById('read-preview');
-        const deleteBtn = document.getElementById('delete-btn');
-        let selectedIndex = 0;
-
-        summaryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const idx = parseInt(item.getAttribute('data-index'));
-                const summary = summaries[idx];
-                if (!summary) return;
-
-                // Update UI state
-                summaryItems.forEach(el => {
-                    el.classList.remove('bg-indigo-500/5', 'border-indigo-500');
-                    el.classList.add('border-transparent', 'hover:bg-white/5');
-                });
-                item.classList.add('bg-indigo-500/5', 'border-indigo-500');
-                item.classList.remove('border-transparent', 'hover:bg-white/5');
-
-                // Update Content
-                readSynthesis.innerHTML = summary.summary_html;
-                readPreview.textContent = `"${summary.original_preview}"`;
-                selectedIndex = idx;
-            });
-        });
-
-        if (deleteBtn) {
-            deleteBtn.addEventListener('click', async () => {
-                if (selectedIndex < 0 || selectedIndex >= summaries.length) return;
-                const summary = summaries[selectedIndex];
-                
-                if (!confirm('Are you certain you wish to purge this summary from existence?')) return;
-
-                deleteBtn.disabled = true;
-                try {
-                    const resp = await fetch(`/summaries/delete/${summary.id}/`, {
-                        method: 'POST',
-                        headers: { 'X-CSRFToken': '{{ csrf_token }}' }
-                    });
-                    const data = await resp.json();
-                    
-                    if (data.status === 'success') {
-                        const listItem = document.querySelector(`.summary-item[data-index="${selectedIndex}"]`);
-                        if (listItem) {
-                            listItem.style.transition = 'all 0.3s ease';
-                            listItem.style.opacity = '0';
-                            listItem.style.transform = 'translateX(-20px)';
-                            setTimeout(() => {
-                                listItem.remove();
-                                if (document.querySelectorAll('.summary-item').length === 0) {
-                                    location.reload();
-                                }
-                            }, 300);
-                        }
-                        
-                        summaries.splice(selectedIndex, 1);
-                        document.getElementById('summaries-total').textContent = summaries.length;
-
-                        if (summaries.length === 0) {
-                            document.getElementById('read-content').innerHTML = `
-                                <div class="h-full flex flex-col items-center justify-center opacity-30 py-48">
-                                    <p class="text-white font-bold text-xl">System memory is clear</p>
-                                </div>`;
-                            selectedIndex = -1;
-                        } else {
-                            selectedIndex = Math.min(selectedIndex, summaries.length - 1);
-                            setTimeout(() => {
-                                const nextItem = document.querySelector(`.summary-item[data-index="${selectedIndex}"]`);
-                                if (nextItem) nextItem.click();
-                            }, 350);
-                        }
-                    } else {
-                        alert('Purge failed: ' + data.message);
-                    }
-                } catch (err) {
-                    alert('A systemic network error occurred.');
-                } finally {
-                    deleteBtn.disabled = false;
-                }
-            });
-        }
-    });
-    </script>
+    {% load static %}
+    <script>window.summariesData = JSON.parse('{{ summaries_json|escapejs }}' || '[]');</script>
+    <script src="{% static 'js/summaries.js' %}"></script>
 {% endblock content %}
