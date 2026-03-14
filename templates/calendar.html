@@ -5,7 +5,7 @@
 {% block content %}
     <div class="p-6 md:p-8 flex flex-col h-full overflow-hidden">
         <!-- Header Area -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 flex-shrink-0">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 shrink-0">
             <div>
                 <h1 class="text-2xl font-bold text-white flex items-center gap-2">
                     <span class="p-1.5 rounded-lg bg-cyan-500/10 text-cyan-400">
@@ -44,7 +44,7 @@
                     </button>
                 </div>
                 <button id="magicEventBtn"
-                        class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium text-sm shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50 flex items-center gap-2">
+                        class="px-4 py-2 rounded-xl bg-linear-to-r from-cyan-500 to-blue-500 text-white font-medium text-sm shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50 flex items-center gap-2">
                     <svg class="w-4 h-4"
                          fill="none"
                          viewBox="0 0 24 24"
@@ -63,10 +63,10 @@
             <div id="week-view-container"
                  class="flex-1 flex flex-col min-h-0 overflow-hidden">
                 <div id="days-header"
-                     class="flex border-b border-white/5 flex-shrink-0 bg-[#0a0c12]/80"></div>
+                     class="flex border-b border-white/5 shrink-0 bg-[#0a0c12]/80"></div>
                 <div id="timeline-grid"
                      class="flex-1 overflow-y-auto relative scrollbar-hide">
-                    <div class="absolute left-16 right-0 top-[260px] h-[1px] bg-cyan-500/50 z-20 pointer-events-none hidden"
+                    <div class="absolute left-16 right-0 top-[260px] h-px bg-cyan-500/50 z-20 pointer-events-none hidden"
                          id="current-time-line">
                         <div class="absolute -left-[5px] -top-1 w-2 h-2 rounded-full bg-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
                     </div>
@@ -77,7 +77,7 @@
             <div id="month-view-container"
                  class="hidden flex-1 flex-col min-h-0 overflow-hidden relative">
                 <!-- Days of week Header -->
-                <div class="grid grid-cols-7 border-b border-white/5 flex-shrink-0 bg-[#0a0c12]/80 text-center"
+                <div class="grid grid-cols-7 border-b border-white/5 shrink-0 bg-[#0a0c12]/80 text-center"
                      style="display: grid;
                             grid-template-columns: repeat(7, 1fr);
                             width: 100%">
@@ -141,18 +141,14 @@
                           class="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none mb-4"></textarea>
                 <div class="flex justify-end gap-3">
                     <button id="generateMagicEventBtn"
-                            class="px-6 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-sm transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40">
+                            class="px-6 py-2 rounded-xl bg-linear-to-r from-cyan-500 to-blue-500 text-white font-bold text-sm transition-all shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40">
                         Generate Event
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    
     {% load static %}
-        <script>
-            window.eventsData = JSON.parse('{{ events_json|escapejs }}' || '[]');
-        </script>
+    <script>window.eventsData = JSON.parse('{{ events_json|escapejs }}' || '[]');</script>
     <script src="{% static 'js/calendar.js' %}"></script>
-
 {% endblock content %}
